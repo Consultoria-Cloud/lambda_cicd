@@ -6,8 +6,9 @@ on:
 
   workflow_dispatch:
     inputs:
-      tags:
-        description: 'Test scenario tags' 
+      tag:
+        description: 'New tag name'
+        required: true
     
 jobs:
   
@@ -80,8 +81,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.event.inputs.tag }}
+          release_name: Release ${{ github.event.inputs.tag }}
           body: |
             Changes in this Release
             - First Change
