@@ -36,7 +36,7 @@ jobs:
       - name: Deploy to AWS Lambda
         run: | 
           aws lambda update-function-code \
-          --function-name ${{ secrets.AWS_ARN_LAMBDA }} \
+          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name dev --function-version ${{ github.event.inputs.tag }} \
           --zip-file=fileb://src/code.zip
 
   staging:
