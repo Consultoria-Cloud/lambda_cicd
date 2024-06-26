@@ -38,6 +38,11 @@ jobs:
           aws lambda update-function-code \
           --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name dev --function-version ${{ github.event.inputs.tag }} \
           --zip-file=fileb://src/code.zip
+      
+      - name: Update alias lambda
+        run: | 
+          aws lambda update-alias \
+          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name dev --function-version ${{ github.event.inputs.tag }}
 
   staging:
     runs-on: ubuntu-latest
