@@ -1,9 +1,8 @@
 name: Deploy Lambda Function
 
 on:
-  push:
-    paths:
-      - "src/**"
+    #paths:
+    #  - "src/**"
 
   workflow_dispatch:
     inputs:
@@ -42,6 +41,7 @@ jobs:
   staging:
     runs-on: ubuntu-latest
     environment: staging
+    needs: dev
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -69,6 +69,7 @@ jobs:
   prod:
     runs-on: ubuntu-latest
     environment: prod
+    needs: staging
     steps:
       - name: Checkout
         uses: actions/checkout@v2
