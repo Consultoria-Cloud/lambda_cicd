@@ -6,6 +6,7 @@ on:
 
   workflow_dispatch:
     inputs:
+      tag:
       tag_lambda:
         description: 'How to Tag Lambda?'
         required: true
@@ -66,7 +67,7 @@ jobs:
       - name: Update alias lambda
         run: | 
           aws lambda update-alias \
-          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name staging --function-version ${{ github.event.inputs.tag }}
+          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name staging --function-version ${{ github.event.inputs.tag_lambda }}
 
   
   prod:
@@ -115,5 +116,5 @@ jobs:
       - name: Update alias lambda
         run: | 
           aws lambda update-alias \
-          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name prod --function-version ${{ github.event.inputs.tag }}
+          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name prod --function-version ${{ github.event.inputs.tag_lambda }}
 
