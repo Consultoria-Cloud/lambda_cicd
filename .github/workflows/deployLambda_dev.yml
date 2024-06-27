@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
+        required: true
       tag_lambda:
         description: 'How to Tag Lambda?'
         required: true
