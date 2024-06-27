@@ -46,11 +46,6 @@ jobs:
         run: | 
           aws lambda publish-version \
           --function-name ${{ secrets.AWS_ARN_LAMBDA }}
-      
-      - name: Update alias lambda
-        run: | 
-          aws lambda update-alias \
-          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name dev --function-version ${{ github.event.inputs.tag }}
 
   staging:
     runs-on: ubuntu-latest
@@ -67,18 +62,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
-
-      - name: Install zip tool
-        uses: montudor/action-zip@v1
-
-      - name: Create Zip file for Lambda Function
-        run: cd src && zip -r code.zip .
-
-      - name: Deploy to AWS Lambda
+          
+      - name: Update alias lambda
         run: | 
-          aws lambda update-function-code \
-          --function-name ${{ secrets.AWS_ARN_LAMBDA }} \
-          --zip-file=fileb://src/code.zip
+          aws lambda update-alias \
+          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name staging --function-version ${{ github.event.inputs.tag }}
+
   
   prod:
     runs-on: ubuntu-latest
