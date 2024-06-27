@@ -6,8 +6,8 @@ on:
 
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'New tag name'
+      tag_lambda:
+        description: 'How to Tag Lambda?'
         required: true
     
 jobs:
@@ -111,3 +111,9 @@ jobs:
           aws lambda update-function-code \
           --function-name ${{ secrets.AWS_ARN_LAMBDA }} \
           --zip-file=fileb://src/code.zip
+      
+      - name: Update alias lambda
+        run: | 
+          aws lambda update-alias \
+          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name prod --function-version ${{ github.event.inputs.tag }}
+
