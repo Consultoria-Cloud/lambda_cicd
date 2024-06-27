@@ -39,7 +39,7 @@ jobs:
           --function-name ${{ secrets.AWS_ARN_LAMBDA }} \
           --zip-file=fileb://src/code.zip
 
-    - name: Publish Lambda Version
+      - name: Publish Lambda Version
         run: | 
           aws lambda publish-version \
           --function-name ${{ secrets.AWS_ARN_LAMBDA }}
