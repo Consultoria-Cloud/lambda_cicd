@@ -36,13 +36,18 @@ jobs:
       - name: Deploy to AWS Lambda
         run: | 
           aws lambda update-function-code \
-          --function-name cicd_version_alias_test \
+          --function-name ${{ secrets.AWS_ARN_LAMBDA }} \
           --zip-file=fileb://src/code.zip
+
+    - name: Publish Lambda Version
+        run: | 
+          aws lambda publish-version \
+          --function-name ${{ secrets.AWS_ARN_LAMBDA }}
       
       - name: Update alias lambda
         run: | 
           aws lambda update-alias \
-          --function-name cicd_version_alias_test --name dev --function-version ${{ github.event.inputs.tag }}
+          --function-name ${{ secrets.AWS_ARN_LAMBDA }} --name dev --function-version ${{ github.event.inputs.tag }}
 
   staging:
     runs-on: ubuntu-latest
